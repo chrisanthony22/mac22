@@ -1,0 +1,129 @@
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* Prevents unexpected scrolling */
+  }
+  
+  .sidebar {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ddd;
+    margin-left: 10px;
+  }
+  
+  .search-bar {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background: white;
+  }
+  
+  .blog-list {
+    flex: 1;
+    overflow-y: auto;
+  }
+  
+  .content {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden; /* Prevents scrolling on the content itself */
+  }
+  
+  .scrollable {
+    flex-grow: 1;
+    overflow-y: auto; /* Only this section should scroll */
+  }
+  .blog-list{
+    margin-left: 30px;
+    margin-top: 20px;
+  }
+  .blog-item{
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+  }
+  .blog-item:hover{
+    background-color: darkgreen;
+    width: 280px;
+    border-radius: 10px;
+    font-size: 17px;
+  }
+  .menu-bar{
+    width: 100vw;
+    margin-left: 5px;
+  }
+  .currentUser{
+    width: 25px;
+  }
+  .userDiv {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    text-align: right;
+    width: 73%;
+  }
+  .fixed{
+    position: fixed;
+  }
+  .space{
+    height: 70px;
+  }
+  .note-content{
+    padding: 20px;
+  }
+  .whiteText{
+    color: white;
+  }
+  
+  /* Reduce the width of the vertical scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px; /* Adjust as needed */
+  }
+  
+  /* Style the scrollbar track (background) */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  /* Style the scrollbar handle (thumb) */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+  
+  /* On hover, make the scrollbar darker */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  .addNoteForm{
+    position: fixed; /* Keeps it on top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparent gray background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Makes sure it stays above everything */
+  }
+  .addNoteForm > div {
+    background-color: white;
+    padding: 20px;
+    width: 50%;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    border: 2px solid #555; /* Darker border */
+  }
+  .w-full{
+    width: 95%;
+    padding: 10px;
+  }

@@ -1,0 +1,150 @@
+:root {
+  --background-color: #234F1E;
+  --background-gradient: linear-gradient(to bottom, #3B7A2F, #1E4D1B);
+  --btn-color: #0987f2;
+  --btn-text-color: #fff;
+  --project-card-bg:#ffffff00;
+  --text-color:#fff;
+  --form-text-color:#555;
+  --footer-text-color: #888;
+}
+[data-theme='dark']{
+  --background-color: #222;
+  --background-gradient: linear-gradient(to bottom, #222, #000);
+  --btn-color: #fff;
+  --btn-text-color: #222;
+  --project-card-bg:#fff;
+  --text-color:#fff;
+  --form-text-color:#fff;
+  --footer-text-color: #bbb;
+}
+body{
+background: var(--background-gradient);
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 60px;
+}
+#root{
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+h1,h2,h3,p{
+  color: var(--text-color);
+  margin: 0;
+  padding:0;
+}
+h2,h3,p{
+  font-family: 'Roboto Mono', monospace;
+}
+h1,h2{
+  text-transform: uppercase;
+}
+h2,h3{
+  font-size: 20px;
+}
+h1{
+  font-family: 'Rubik', sans-serif;
+  font-size:  32px;
+}
+p{
+  font-size: 16px;
+  font-weight: 300;
+}
+.sectionTitle{
+  margin-bottom: 30px;
+}
+.hover{
+  cursor: pointer;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh; /* Full screen height */
+  flex-wrap: wrap; /* Allow the columns to wrap on smaller screens */
+}
+
+.left-column {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.right-column {
+  flex: 1;
+  position: relative;
+  padding: 20px;
+}
+.code-background {
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  white-space: pre-wrap;  /* ✅ Keeps newlines */
+  word-wrap: break-word !important;  /* ✅ Wraps long lines */
+  overflow-y: auto;       /* ✅ Allows scrolling */
+  z-index: -1; /* Sends the code background behind other content */
+}
+
+.text-overlay {
+  position: relative;
+  z-index: 1; /* Ensures buttons and text appear on top */
+  text-align: center;
+}
+/* Wrapper to keep the code contained */
+.code-wrapper {
+background-color: transparent;
+background: none;
+position: absolute;
+width: 100%;
+height: 100%;
+word-wrap: break-word !important;  /* ✅ Wraps long lines */
+overflow: hidden;
+z-index: -1; /* Push behind content */
+}
+
+.scrolling-code {
+position: absolute;
+background-color: transparent;
+width: 100%;
+white-space: pre-wrap;  /* Keeps newlines */
+word-wrap: break-word !important;  /* Wraps long lines */
+font-size: 8px;  /* Adjust font size */
+line-height: 1.2; /* Reduce spacing between lines */
+overflow: hidden; /* Hide overflow content */
+}
+/* Ensure the 3D container takes up full width and height on mobile */
+.three-d-container {
+  width: 100%;
+  height: 100%;
+  position: relative; /* Positioning for the overlay */
+}
+
+.text-overlay {
+  position: absolute;
+  top: 90%; /* Center the text vertically */
+  left: 50%; /* Center the text horizontally */
+  transform: translate(-50%, -50%); /* Adjust for precise centering */
+  text-align: center; /* Align text */
+  z-index: 2; /* Ensure text appears on top */
+}
+
+
+/* For mobile screens */
+@media (max-width: 768px) {
+  .left-column {
+    width: 100% !important;
+  }
+  .right-column {
+    width: 100% !important;
+    position: relative;
+  }
+  .three-d-container{
+    width: 100vw !important;
+  }
+}
