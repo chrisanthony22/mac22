@@ -11,20 +11,27 @@ function Home({ setIsLoggedIn }) {
   const [isAnimating, setIsAnimating] = useState(false);
   const codeRef = useRef(null);
 
-  // Fetch a random file
-  const fetchRandomFile = () => {
-    fetch("files.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const files = data.files;
-        const randomFile = files[Math.floor(Math.random() * files.length)];
-        return fetch(`/${randomFile}`);
-      })
-      .then((res) => res.text())
-      .then((data) => {
-        setRandomCode(data);
-        setTimeout(startAnimation, 500); // Delay before starting animation
-      });
+  // Fetch a random file from `public/files.json`
+  const fetchRandomFile = async () => {
+    try {
+      const res = await fetch("/files.json"); // Fetch file list
+      const data = await res.json();
+      const files = data.files;
+
+      if (!files.length) throw new Error("No files found");
+
+      const randomFile = files[Math.floor(Math.random() * files.length)];
+      const fileRes = await fetch(`/${randomFile}`); // Fetch file content
+
+      if (!fileRes.ok) throw new Error(`Failed to load ${randomFile}`);
+
+      const fileText = await fileRes.text();
+      setRandomCode(fileText);
+      setTimeout(startAnimation, 500);
+    } catch (error) {
+      console.error("Error loading file:", error);
+      setRandomCode("// ⚠️ Error: Could not load file");
+    }
   };
 
   useEffect(() => {
@@ -41,52 +48,46 @@ function Home({ setIsLoggedIn }) {
 
     let startTime = null;
     const duration = 20000; // 20 seconds for full scroll
-const animate = (timestamp) => {
-  if (!startTime) startTime = timestamp;
-  const elapsed = timestamp - startTime;
-  const progress = Math.min(elapsed / duration, 1);
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
 
-  // Moves from 100% to -100% (fully scrolls off-screen)
-  element.style.top = `${100 - progress * 200}%`;  
+      element.style.top = `${100 - progress * 200}%`;
 
-  if (progress < 1) {
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setIsAnimating(false);
+        setTimeout(fetchRandomFile, 500);
+      }
+    };
+
     requestAnimationFrame(animate);
-  } else {
-    setIsAnimating(false);
-    
-    // Wait a moment before loading the new file
-    setTimeout(() => {
-      fetchRandomFile();
-    }, 500); 
-  }
-};
-
-requestAnimationFrame(animate);
   };
 
   return (
     <div className="app-container">
       <div className="left-column">
         <Hero />
-        <button onClick={() => alert("Mac alert")}>Show Alert</button>
       </div>
 
       <div className="right-column">
         {/* Scrolling Code Background */}
         <div className="code-wrapper">
           <div ref={codeRef} className="scrolling-code">
-          <SyntaxHighlighter
-            language="jsx"
-            style={atomDark}
-            wrapLongLines={true} // ✅ Prevents horizontal scrolling
-            showLineNumbers
-            customStyle={{
-              fontSize: "10px",
-              background: "transparent", // ✅ Removes background color
-              padding: "0", // ✅ Removes internal padding
-              overflow: "hidden", // ✅ Ensures no scrollbars
-            }}
-          >
+            <SyntaxHighlighter
+              language="jsx"
+              style={atomDark}
+              wrapLongLines={true}
+              showLineNumbers
+              customStyle={{
+                fontSize: "10px",
+                background: "transparent",
+                padding: "0",
+                overflow: "hidden",
+              }}
+            >
               {randomCode}
             </SyntaxHighlighter>
           </div>
