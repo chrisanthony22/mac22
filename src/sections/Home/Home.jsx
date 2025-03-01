@@ -58,7 +58,6 @@ function Home({ setIsLoggedIn }) {
     <div className="app-container">
       <div className="left-column">
         <Hero />
-        <button onClick={() => alert("Mac alert")}>Show Alert</button>
       </div>
 
       <div className="right-column">
