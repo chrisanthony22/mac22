@@ -23,8 +23,24 @@ function Model({ path, scale }) {
 }
 
 function ThreeD() {
-    const models = ["/models/comA.glb"];
+    // List of models
+    const models = ["/models/comA.glb", "/models/tur3.glb", "/models/workbench.glb"];
     const [currentModel, setCurrentModel] = useState(models[0]); // Default model
+
+    // Change model every 50 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentModel((prev) => {
+                let newModel;
+                do {
+                    newModel = models[Math.floor(Math.random() * models.length)];
+                } while (newModel === prev); // Ensure different model is chosen
+                return newModel;
+            });
+        }, 50000); // 50 seconds
+
+        return () => clearInterval(interval); // Cleanup when component unmounts
+    }, []);
 
     return (
         <Canvas dpr={[1, 3]} shadows camera={{ fov: 45 }} style={{ position: "absolute", width: "100%", height: "100%" }}>
