@@ -37,7 +37,7 @@ function ThreeD() {
                 } while (newModel === prev); // Ensure different model is chosen
                 return newModel;
             });
-        }, 50000); // 50 seconds
+        }, 6000); // 50 seconds
 
         return () => clearInterval(interval); // Cleanup when component unmounts
     }, []);
