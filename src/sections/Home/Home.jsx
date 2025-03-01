@@ -8,34 +8,24 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 function Home({ setIsLoggedIn }) {
   const [showLogin, setShowLogin] = useState(false);
   const [randomCode, setRandomCode] = useState("");
-  const [isAnimating, setIsAnimating] = useState(false);
   const codeRef = useRef(null);
 
-  // Fetch a random file from `public/files.json`
-  const fetchRandomFile = async () => {
-    try {
-      const res = await fetch("/files.json"); // Fetch file list
-      const data = await res.json();
-      const files = data.files;
+  // Hardcoded code samples
+  const codeSamples = [
+    `import React from 'react';\nfunction HelloWorld() {\n  return <h1>Hello, World!</h1>;\n}\nexport default HelloWorld;`,
+    `const add = (a, b) => a + b;\nconsole.log(add(2, 3)); // 5`,
+    `class Person {\n  constructor(name) {\n    this.name = name;\n  }\n  greet() {\n    return \`Hello, \${this.name}!\`;\n  }\n}\nconst p = new Person("Alice");\nconsole.log(p.greet());`,
+  ];
 
-      if (!files.length) throw new Error("No files found");
-
-      const randomFile = files[Math.floor(Math.random() * files.length)];
-      const fileRes = await fetch(`/${randomFile}`); // Fetch file content
-
-      if (!fileRes.ok) throw new Error(`Failed to load ${randomFile}`);
-
-      const fileText = await fileRes.text();
-      setRandomCode(fileText);
-      setTimeout(startAnimation, 500);
-    } catch (error) {
-      console.error("Error loading file:", error);
-      setRandomCode("// ⚠️ Error: Could not load file");
-    }
+  // Select a random code snippet
+  const fetchRandomCode = () => {
+    const randomSnippet = codeSamples[Math.floor(Math.random() * codeSamples.length)];
+    setRandomCode(randomSnippet);
+    setTimeout(startAnimation, 500);
   };
 
   useEffect(() => {
-    fetchRandomFile(); // Load the first file
+    fetchRandomCode(); // Load first snippet
   }, []);
 
   // Scroll Animation
@@ -44,22 +34,20 @@ function Home({ setIsLoggedIn }) {
 
     const element = codeRef.current;
     element.style.top = "100%"; // Start from bottom
-    setIsAnimating(true);
 
     let startTime = null;
     const duration = 20000; // 20 seconds for full scroll
+
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / duration, 1);
-
       element.style.top = `${100 - progress * 200}%`;
 
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
-        setIsAnimating(false);
-        setTimeout(fetchRandomFile, 500);
+        setTimeout(fetchRandomCode, 1000); // Wait 1 second before loading new snippet
       }
     };
 
@@ -70,6 +58,7 @@ function Home({ setIsLoggedIn }) {
     <div className="app-container">
       <div className="left-column">
         <Hero />
+        <button onClick={() => alert("Mac alert")}>Show Alert</button>
       </div>
 
       <div className="right-column">
@@ -104,10 +93,7 @@ function Home({ setIsLoggedIn }) {
                   <span className="close" onClick={() => setShowLogin(false)}>
                     &times;
                   </span>
-                  <Login
-                    closePopup={() => setShowLogin(false)}
-                    onLoginSuccess={() => setIsLoggedIn(true)}
-                  />
+                  <Login closePopup={() => setShowLogin(false)} onLoginSuccess={() => setIsLoggedIn(true)} />
                 </div>
               </div>
             )}

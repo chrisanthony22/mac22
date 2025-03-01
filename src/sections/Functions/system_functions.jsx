@@ -1,12 +1,12 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 export const handleLoginSubmit = async (email, password, closePopup, onLoginSuccess) => {
     const url = "http://localhost:8080/mac22_react/login.php"; 
     const formData = { email, password };
 
     // Show "Processing login..." toast and store its ID
-    const processingToastId = toast.info("...Processing login...", {
-        icon: <Oval color="#3498db" height={20} width={20} />,
+    const processingToastId = toast.info("🔄 Processing login...", {  // 🔄 Unicode Spinner
         style: { 
             backgroundColor: "blue", 
             color: "#fff",
