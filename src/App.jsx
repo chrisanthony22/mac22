@@ -4,7 +4,6 @@ import Home from './sections/Home/Home';
 import Note from './sections/Note/Note';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; 
 import { ToastContainer } from 'react-toastify';
-import { Oval } from 'react-loader-spinner';
 import { useAuthRedirect } from "./utils/auth";
 
 const AuthWrapper = ({ isLoggedIn }) => {

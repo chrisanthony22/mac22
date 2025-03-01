@@ -1,7 +1,5 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Oval } from 'react-loader-spinner';
-
 export const handleLoginSubmit = async (email, password, closePopup, onLoginSuccess) => {
     const url = "http://localhost:8080/mac22_react/login.php"; 
     const formData = { email, password };
