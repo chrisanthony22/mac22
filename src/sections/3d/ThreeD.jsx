@@ -37,15 +37,22 @@ function ThreeD() {
                 } while (newModel === prev); // Ensure different model is chosen
                 return newModel;
             });
-        }, 6000); // 50 seconds
+        }, 7000); // 50 seconds
 
         return () => clearInterval(interval); // Cleanup when component unmounts
     }, []);
 
     return (
         <Canvas dpr={[1, 3]} shadows camera={{ fov: 45 }} style={{ position: "absolute", width: "100%", height: "100%" }}>
+            {/* 🌟 Ambient light (soft overall lighting) */}
+            <ambientLight intensity={1.5} />
+            
+            {/* 🔆 Directional light (simulating sunlight) */}
+            <directionalLight position={[5, 5, 5]} intensity={3} castShadow />
+            
             <PresentationControls speed={1.5} global zoom={0.3} polar={[-0.1, Math.PI / 4]}>
-                <Stage environment={null}>
+                {/* 🌍 Adds an HDRI lighting environment (Cityscape) */}
+                <Stage environment="city">
                     <Model path={currentModel} scale={0.5} /> 
                 </Stage>
             </PresentationControls>
