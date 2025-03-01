@@ -2,68 +2,47 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const handleLoginSubmit = async (email, password, closePopup, onLoginSuccess) => {
-    const url = "http://localhost:8080/mac22_react/login.php"; 
-    const formData = { email, password };
+    const url = "http://mac22.42web.io/login.php"; // Replace with working API URL
+    const formData = JSON.stringify({ email, password });
 
-    // Show "Processing login..." toast and store its ID
-    const processingToastId = toast.info("🔄 Processing login...", {  // 🔄 Unicode Spinner
-        style: { 
-            backgroundColor: "blue", 
-            color: "#fff",
-            fontSize: "14px", 
-            fontFamily: "Arial, sans-serif",
-            padding: "5px 10px", 
-            minHeight: "50px", 
-            lineHeight: "1", 
-        }
-    });
+    console.log("Sending data:", formData); // Debugging log
 
     try {
         const response = await fetch(url, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData),
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json" // Ensure JSON response
+            },
+            body: formData,
         });
 
-        toast.dismiss(processingToastId);  // Remove the processing toast
-
-        // Read raw response first
-        const textResponse = await response.text();
+        const textResponse = await response.text(); // Read raw response
         console.log("Raw Response:", textResponse);
 
-        // Try parsing JSON
         let result;
         try {
             result = JSON.parse(textResponse);
         } catch (error) {
             console.error("Error parsing JSON:", error);
-            toast.error("⚠️ Invalid server response. Contact support.", { autoClose: 2000 });
+            toast.error("⚠️ Invalid server response. Contact support.");
             return;
         }
 
         console.log("Parsed JSON Response:", result);
 
-        if (result.status === "success" && result.username && result.fullname && result.id) {
-            toast.success("🎉 Login successful!", { autoClose: 2000 });
-
-            localStorage.setItem("userSession", JSON.stringify({
-                username: result.username,
-                fullname: result.fullname,
-                id: result.id,
-            }));
-
-            setTimeout(() => {
-                onLoginSuccess();
-            }, 3000);
+        if (result.status === "success") {
+            toast.success("🎉 Login successful!");
+            onLoginSuccess();
         } else {
-            toast.error("❌ Invalid credentials!", { autoClose: 2000 });
+            toast.error("❌ Invalid credentials!");
         }
     } catch (error) {
-        toast.dismiss(processingToastId);
-        toast.error("⚠️ Error during login, Try Again.", { autoClose: 2000 });
-        console.log("Fetch error:", error);
+        console.error("Fetch error:", error);
+        toast.error("⚠️ Network error, please try again.");
     }
 };
+
 
 
 // Save New Note
@@ -74,7 +53,7 @@ export const handleSaveNote = async (title, category, content, userId, closeForm
     }
 
     const noteData = { title, category, content };
-    const url = "http://localhost:8080/mac22_react/saveNote.php";
+    const url = "http://mac22.42web.io/saveNote.php";
 
     try {
         const response = await fetch(url, {
