@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const handleLoginSubmit = async (email, password, closePopup, onLoginSuccess) => {
-    const url = "http://mac22.42web.io/login.php"; // Replace with working API URL
+    const url = "https://mac22.42web.io/login.php"; // Replace with working API URL
     const formData = JSON.stringify({ email, password });
 
     console.log("Sending data:", formData); // Debugging log
