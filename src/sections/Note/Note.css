@@ -71,7 +71,9 @@
   .menu-bar{
     padding: 5px 0px;
     width: 100vw;
-    display: inline-flex;
+    display: flex;
+    justify-items: center;
+    align-items: center;
   }
   .currentUser{
     width: 25px;
@@ -154,7 +156,7 @@
   
   .search-icon {
     position: absolute;
-    left: 10px; /* Adjust position */
+    left: 18px; /* Adjust position */
     color: #777;
   }
   
@@ -183,6 +185,6 @@
     text-decoration: underline;
   }
   .formContainer{
-    background-color: #0D1117 !important;
+    background-color: #010409 !important;
     border: 1px solid #8898A1 !important;
   }

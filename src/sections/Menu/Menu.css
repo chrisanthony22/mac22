@@ -7,6 +7,9 @@
   .menuIcon{
     color: #dae0e4;
     padding-right: 5px;
+    display: flex-inline;
+    justify-content: center;
+    align-items: center;
   }
   .username {
     color: #dae0e4;

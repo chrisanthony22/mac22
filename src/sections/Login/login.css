@@ -8,15 +8,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    
   }
-  
+  .inputLogin {
+    padding: 8px 8px; /* Left padding for icon */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    color: #dae0e4;
+    background-color: #151B23;
+    margin-bottom: 5px;
+  }
   .popup-content {
-    background: white;
-    padding: 20px;
+    background: #0D1117;
+    color:#dae0e4;
+    padding: 10px;
     border-radius: 10px;
     position: relative;
     text-align: center;
     width: 300px;
+    border: 1px solid #ccc !important;
   }
   
   .close {

@@ -10,7 +10,7 @@ import { handleSaveNote } from "../Functions/system_functions";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import { format } from "date-fns";
-import { FaUser, FaBars, FaPlusCircle, FaSearch,FaTimes } from "react-icons/fa"; // Importing icons
+import { FaUser,FaBars,FaPlusCircle,FaSearch,FaTimes,FaSave } from "react-icons/fa"; // Importing icons
 
 function Note({ handleLogout }) {
   const { theme } = useTheme();
@@ -107,13 +107,13 @@ function Note({ handleLogout }) {
               <FaSearch className="search-icon" />
               <input
                 type="text"
-                placeholder="Search blog..."
+                placeholder="Search notes..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="search-input"
               />
             </div>
-            <button onClick={openForm} className="btnSuccess"><FaPlusCircle size={15} />New</button>
+            <button onClick={openForm} className="btnSuccess"><FaPlusCircle size={15} className='menuIcon'/>New</button>
           </div>
         </div>
         <div className='space' />
@@ -146,15 +146,15 @@ function Note({ handleLogout }) {
           {addFormIsOpen && (
             <div className="addNoteForm">
               <div className="formContainer">
-              <div className="col-md-12 row">
-                <div className="col-md-11">
-                  <h3>Adding New Note</h3>
+                <div className="col-md-12 row">
+                  <div className="col-md-11">
+                    <h3>Adding New Note</h3>
+                  </div>
+                  <div className="col-md-1">
+                    <button className="close-button" onClick={closeForm} style={{marginLeft:"25px"}}>✖</button>
+                  </div>
                 </div>
-                <div className="col-md-1">
-                  <button className="close-button" onClick={closeForm} style={{marginLeft:"25px"}}>✖</button>
-                </div>
-              </div>
-              <hr/>
+                <hr/>
                 <input 
                   type="text" 
                   placeholder="Enter title" 
@@ -179,12 +179,10 @@ function Note({ handleLogout }) {
                   onChange={(e) => setContent(e.target.value)}
                 ></textarea>
                 
-                <div className="flex justify-end gap-2">
-                  <button onClick={closeForm} className="bg-gray-500 text-white px-4 py-2 rounded">
-                    Close
-                  </button>
-                  <button onClick={handleSubmit} className="bg-green-500 text-white px-4 py-2 rounded">
-                    Submit
+                <div className="">
+                  <button onClick={handleSubmit} className="btnSuccess">
+                   <FaSave size={17} className='menuIcon' />
+                    Save
                   </button>
                 </div>
               </div>

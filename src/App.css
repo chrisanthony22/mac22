@@ -139,9 +139,10 @@ overflow: hidden; /* Hide overflow content */
   display: inline-flex;
   cursor: pointer;
   justify-content: center;
-  padding: 5px 8px;
+  padding: 0px 8px;
   border: none;
   border-radius: 5px;
+  height: 30px;
 }
 /* Row - Creates a flex container */
 .row {
@@ -177,6 +178,22 @@ overflow: hidden; /* Hide overflow content */
   bottom: 0;
   width: 100%;
 }
+
+input{
+  background-color: #0D1117;
+  border: 1px solid #888;
+  color: #F0F6FC;
+  margin: 3px;
+  border-radius: 5px;
+}
+textarea{
+  background-color: #0D1117;
+  border: 1px solid #888;
+  color: #F0F6FC;
+  margin: 3px;
+  border-radius: 5px;
+}
+
 /* Responsive behavior for smaller screens */
 @media (max-width: 768px) {
   .col-md-2, .col-md-4, .col-md-6, .col-md-8, .col-md-10, .col-md-12 {
