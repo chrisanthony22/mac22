@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom"; // 🔥 Import useNavigate
 import Hero from "../Hero/Hero";
 import ThreeD from "../3d/ThreeD";
 import Login from "../Login/login";
@@ -9,6 +10,7 @@ function Home({ setIsLoggedIn }) {
   const [showLogin, setShowLogin] = useState(false);
   const [randomCode, setRandomCode] = useState("");
   const codeRef = useRef(null);
+  const navigate = useNavigate(); // 🔥 Initialize navigation
 
   // Hardcoded code samples
   const codeSamples = [
@@ -17,7 +19,6 @@ function Home({ setIsLoggedIn }) {
     `class Person {\n  constructor(name) {\n    this.name = name;\n  }\n  greet() {\n    return \`Hello, \${this.name}!\`;\n  }\n}\nconst p = new Person("Alice");\nconsole.log(p.greet());`,
   ];
 
-  // Select a random code snippet
   const fetchRandomCode = () => {
     const randomSnippet = codeSamples[Math.floor(Math.random() * codeSamples.length)];
     setRandomCode(randomSnippet);
@@ -28,10 +29,8 @@ function Home({ setIsLoggedIn }) {
     fetchRandomCode(); // Load first snippet
   }, []);
 
-  // Scroll Animation
   const startAnimation = () => {
     if (!codeRef.current) return;
-
     const element = codeRef.current;
     element.style.top = "100%"; // Start from bottom
 
@@ -54,6 +53,11 @@ function Home({ setIsLoggedIn }) {
     requestAnimationFrame(animate);
   };
 
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+    navigate("/note", { replace: true }); // 🔥 Redirect to Notes Page
+  };
+
   return (
     <div className="app-container">
       <div className="left-column">
@@ -61,7 +65,6 @@ function Home({ setIsLoggedIn }) {
       </div>
 
       <div className="right-column">
-        {/* Scrolling Code Background */}
         <div className="code-wrapper">
           <div ref={codeRef} className="scrolling-code">
             <SyntaxHighlighter
@@ -92,7 +95,7 @@ function Home({ setIsLoggedIn }) {
                   <span className="close" onClick={() => setShowLogin(false)}>
                     &times;
                   </span>
-                  <Login closePopup={() => setShowLogin(false)} onLoginSuccess={() => setIsLoggedIn(true)} />
+                  <Login closePopup={() => setShowLogin(false)} onLoginSuccess={handleLoginSuccess} />
                 </div>
               </div>
             )}

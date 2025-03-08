@@ -1,8 +1,9 @@
 .container {
     display: flex;
     height: 100vh;
+    margin: 0;
+    padding: 0;
     width: 100vw;
-    overflow: hidden; /* Prevents unexpected scrolling */
   }
   
   .sidebar {
@@ -10,7 +11,6 @@
     display: flex;
     flex-direction: column;
     border-right: 1px solid #ddd;
-    margin-left: 10px;
   }
   
   .search-bar {
@@ -18,10 +18,14 @@
     border-bottom: 1px solid #ddd;
     background: white;
   }
-  
+  .note-content{
+    background-color: #555;
+    overflow: auto;
+    height: 100vh;
+  }
   .blog-list {
-    flex: 1;
-    overflow-y: auto;
+    overflow: auto;
+    height: 100vh;
   }
   
   .content {
@@ -29,25 +33,20 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow: hidden; /* Prevents scrolling on the content itself */
   }
   
-  .scrollable {
-    flex-grow: 1;
-    overflow-y: auto; /* Only this section should scroll */
-  }
   .blog-list{
     margin-left: 30px;
     margin-top: 20px;
   }
   .blog-item{
-    padding: 5px;
+    padding: 10px;
     color: white;
     cursor: pointer;
   }
   .blog-item:hover{
     background-color: darkgreen;
-    width: 280px;
+    width: 380px;
     border-radius: 10px;
     font-size: 17px;
   }

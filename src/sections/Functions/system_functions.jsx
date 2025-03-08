@@ -1,78 +1,90 @@
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { collection, query, where, getDocs, addDoc, Timestamp } from "firebase/firestore";
+import { db } from "../../firebase";
 
-export const handleLoginSubmit = async (email, password, closePopup, onLoginSuccess) => {
-    const url = "https://mac22.42web.io/login.php"; // Replace with working API URL
-    const formData = JSON.stringify({ email, password });
-
-    console.log("Sending data:", formData); // Debugging log
-
+// 🔹 Handle User Login
+export const handleLoginSubmit = async (email, password, setIsLoggedIn, navigate) => {
     try {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", 
-                "Accept": "application/json" // Ensure JSON response
-            },
-            body: formData,
-        });
+        const usersRef = collection(db, "useraccounts");
+        const q = query(usersRef, where("email", "==", email), where("password", "==", password)); 
+        const querySnapshot = await getDocs(q);
 
-        const textResponse = await response.text(); // Read raw response
-        console.log("Raw Response:", textResponse);
+        if (!querySnapshot.empty) {
+            const user = querySnapshot.docs[0].data();
+            const userSession = { 
+                id: querySnapshot.docs[0].id, 
+                email: user.email, 
+                username: user.username // ✅ Ensure we store the username
+            };
+            console.log("userID: ",querySnapshot.docs[0].id)
+            console.log("User logged in:", userSession);
+            localStorage.setItem("userSession", JSON.stringify(userSession));
 
-        let result;
-        try {
-            result = JSON.parse(textResponse);
-        } catch (error) {
-            console.error("Error parsing JSON:", error);
-            toast.error("⚠️ Invalid server response. Contact support.");
-            return;
-        }
+            toast.success("🎉 Login successful!", { autoClose: 2000 });
 
-        console.log("Parsed JSON Response:", result);
-
-        if (result.status === "success") {
-            toast.success("🎉 Login successful!");
-            onLoginSuccess();
+            setIsLoggedIn(true);  // ✅ Update state
+            navigate("/note");     // ✅ Redirect immediately
         } else {
-            toast.error("❌ Invalid credentials!");
+            toast.error("❌ Invalid email or password!", { autoClose: 2000 });
         }
     } catch (error) {
-        console.error("Fetch error:", error);
-        toast.error("⚠️ Network error, please try again.");
+        console.error("Login error:", error);
+        toast.error("⚠️ Error logging in. Please try again!", { autoClose: 2000 });
     }
 };
 
+// 🔹 Handle Logout
+export const handleLogout = () => {
+    localStorage.removeItem("userSession"); // Remove user session
+    toast.info("🔒 Logged out successfully!", { autoClose: 2000 });
+    window.location.href = "/"; // Redirect to login page
+};
 
-
-// Save New Note
+// 🔹 Save New Note
 export const handleSaveNote = async (title, category, content, userId, closeForm, setTitle, setContent) => {
     if (!title || !category || !content) {
         toast.warn("⚠️ Please fill in all fields!", { autoClose: 2000 });
         return;
     }
 
-    const noteData = { title, category, content };
-    const url = "http://mac22.42web.io/saveNote.php";
-
     try {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(noteData),
-        });
-        const result = await response.json();
+        const noteData = {
+            title,
+            category,
+            content,
+            userId,
+            dateSaved: Timestamp.now() // Firestore timestamp
+        };
 
-        if (response.ok && result.status === "success") {
-            toast.success("✅ Note saved successfully!", { autoClose: 2000 });
-            closeForm();
-            setTitle("");
-            setContent("");
-        } else {
-            toast.error("❌ Failed to save note!", { autoClose: 2000 });
-        }
+        const notesRef = collection(db, "notes");
+        await addDoc(notesRef, noteData);
+
+        toast.success("✅ Note saved successfully!", { autoClose: 2000 });
+        closeForm();
+        setTitle("");
+        setContent("");
     } catch (error) {
         toast.error("⚠️ Error while saving note!", { autoClose: 2000 });
         console.error("Save Note Error:", error);
+    }
+};
+
+// 🔹 Fetch User Notes from Firestore
+export const fetchUserNotes = async (userId, setBlogs, setSelectedBlog) => {
+    try {
+        const notesRef = collection(db, "notes");
+        const q = query(notesRef, where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+
+        const userNotes = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+
+        setBlogs(userNotes);
+        if (userNotes.length > 0) setSelectedBlog(userNotes[0]); // Select first note by default
+    } catch (error) {
+        console.error("Error fetching notes:", error);
+        toast.error("⚠️ Error fetching notes!");
     }
 };

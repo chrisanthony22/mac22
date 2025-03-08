@@ -22,7 +22,7 @@ body{
 background: var(--background-gradient);
   display: flex;
   justify-content: center;
-  margin: 0 auto 60px;
+  margin: 0;
 }
 #root{
   display: flex;
