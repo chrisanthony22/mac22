@@ -10,6 +10,7 @@ import { handleSaveNote } from "../Functions/system_functions";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import { format } from "date-fns";
+import { FaUser, FaBars, FaPlusCircle, FaSearch,FaTimes } from "react-icons/fa"; // Importing icons
 
 function Note({ handleLogout }) {
   const { theme } = useTheme();
@@ -101,14 +102,19 @@ function Note({ handleLogout }) {
     <div className="container">
       <div className="sidebar fixed-container">
         <div className="search-bar fixed">
-          <div className="menu-bar">M@c22</div>
-          <input
-            type="text"
-            placeholder="Search blog..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button onClick={openForm}>Add New</button>
+          <div className="menu-bar">
+            <div className="search-container">
+              <FaSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search blog..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="search-input"
+              />
+            </div>
+            <button onClick={openForm} className="btnSuccess"><FaPlusCircle size={15} />New</button>
+          </div>
         </div>
         <div className='space' />
 
@@ -120,8 +126,9 @@ function Note({ handleLogout }) {
                 className={`blog-item ${selectedBlog?.id === blog.id ? "active" : ""}`}
                 onClick={() => setSelectedBlog(blog)}
               >
-                {blog.title} <br/>(category: {blog.category})<br/>
-                 <small>{format(blog.dateSaved, "MMM dd, yyyy h:mm a")}</small>
+                <p className='mainText'>{blog.title}</p>
+                <small className='subText'>(category: {blog.category})</small><br/>
+                 <code className='subText'>{format(blog.dateSaved, "MMM dd, yyyy h:mm a")}</code>
               </div>
             ))
           ) : (
@@ -132,17 +139,22 @@ function Note({ handleLogout }) {
 
       <div className="content fixed-container">
         <div className="userDiv fixed">
-          <img className='currentUser' src={userIcon} alt="User" /> {JSON.parse(localStorage.getItem("userSession"))?.username || "Guest"}
           <Menu handleLogout={handleLogout}/>
         </div>
         <div className='space' />
         <div className="note-content">
           {addFormIsOpen && (
             <div className="addNoteForm">
-              <div className="form-container">
-                <button className="close-button" onClick={closeForm}>✖</button>
-                <h2>Adding New Note</h2><hr />
-                
+              <div className="formContainer">
+              <div className="col-md-12 row">
+                <div className="col-md-11">
+                  <h3>Adding New Note</h3>
+                </div>
+                <div className="col-md-1">
+                  <button className="close-button" onClick={closeForm} style={{marginLeft:"25px"}}>✖</button>
+                </div>
+              </div>
+              <hr/>
                 <input 
                   type="text" 
                   placeholder="Enter title" 
@@ -181,14 +193,23 @@ function Note({ handleLogout }) {
 
           {selectedBlog ? (
             <>
-              <h1>{selectedBlog.title}</h1>
-              <p>{selectedBlog.content}</p>
+              <div className='titleDiv'>
+                <h2>{selectedBlog.title}</h2>
+              </div>             
+              <div className='contentDiv'>
+                <p>{selectedBlog.content}</p>
+              </div>
             </>
           ) : (
             <p>No notes available.</p>
           )}
         </div>
       </div>
+
+      {/*Footer Section */}
+    <footer className="footer">
+      <small><code>&copy;{new Date().getFullYear()}  mac22.</code></small>
+    </footer>
     </div>
   );
 }

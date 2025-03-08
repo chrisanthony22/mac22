@@ -1,25 +1,27 @@
 :root {
   --background-color: #234F1E;
-  --background-gradient: linear-gradient(to bottom, #3B7A2F, #1E4D1B);
+  --background-gradient: #010409;
   --btn-color: #0987f2;
-  --btn-text-color: #fff;
+  --btn-text-color: #F0F6FC;
   --project-card-bg:#ffffff00;
-  --text-color:#fff;
+  --text-color:#8898A1;
   --form-text-color:#555;
   --footer-text-color: #888;
 }
 [data-theme='dark']{
   --background-color: #222;
-  --background-gradient: linear-gradient(to bottom, #222, #000);
   --btn-color: #fff;
   --btn-text-color: #222;
   --project-card-bg:#fff;
-  --text-color:#fff;
+  --text-color:#8898A1;
   --form-text-color:#fff;
   --footer-text-color: #bbb;
 }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 body{
-background: var(--background-gradient);
+  font-family: 'Inter', sans-serif;
+  background: var(--background-gradient);
   display: flex;
   justify-content: center;
   margin: 0;
@@ -36,9 +38,6 @@ h1,h2,h3,p{
 }
 h2,h3,p{
   font-family: 'Roboto Mono', monospace;
-}
-h1,h2{
-  text-transform: uppercase;
 }
 h2,h3{
   font-size: 20px;
@@ -133,6 +132,59 @@ overflow: hidden; /* Hide overflow content */
   text-align: center; /* Align text */
   z-index: 2; /* Ensure text appears on top */
 }
+.btnSuccess{
+  background-color: #258937;
+  align-items: center;
+  color: white;
+  display: inline-flex;
+  cursor: pointer;
+  justify-content: center;
+  padding: 5px 8px;
+  border: none;
+  border-radius: 5px;
+}
+/* Row - Creates a flex container */
+.row {
+  display: flex;
+  flex-wrap: wrap; /* Allows columns to wrap */
+}
+
+/* Column classes based on Bootstrap 5 */
+.col-md-2 { flex: 0 0 16.66667%; max-width: 16.66667%; }
+.col-md-4 { flex: 0 0 33.33333%; max-width: 33.33333%; }
+.col-md-6 { flex: 0 0 50%; max-width: 50%; }
+.col-md-8 { flex: 0 0 66.66667%; max-width: 66.66667%; }
+.col-md-10 { flex: 0 0 83.33333%; max-width: 83.33333%; }
+.col-md-12 { flex: 0 0 100%; max-width: 100%; }
+.col-md-11 {flex: 0 0 91.66667%;max-width: 91.66667%;}
+.col-md-1 {flex: 0 0 8.33333%;max-width: 8.33333%;}
+
+.footer {
+  width: 100%;
+  background-color: #010409; /* Dark background */
+  color: white;
+  border-top: 1px solid white;
+  text-align: center;
+  padding: 10px 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  height: 8px;
+  bottom: 0;
+  width: 100%;
+}
+/* Responsive behavior for smaller screens */
+@media (max-width: 768px) {
+  .col-md-2, .col-md-4, .col-md-6, .col-md-8, .col-md-10, .col-md-12 {
+    flex: 0 0 100%; /* Stack columns on small screens */
+    max-width: 100%;
+  }
+}
+
 
 
 /* For mobile screens */

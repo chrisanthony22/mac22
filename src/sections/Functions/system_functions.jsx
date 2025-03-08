@@ -4,11 +4,15 @@ import { db } from "../../firebase";
 
 // 🔹 Handle User Login
 export const handleLoginSubmit = async (email, password, setIsLoggedIn, navigate) => {
+    toast.info("processing login... please wait!", {
+        autoClose: 500,
+        style: { backgroundColor: "#0D1117", color: "blue", height: "50px" }
+      });
     try {
         const usersRef = collection(db, "useraccounts");
         const q = query(usersRef, where("email", "==", email), where("password", "==", password)); 
         const querySnapshot = await getDocs(q);
-
+        
         if (!querySnapshot.empty) {
             const user = querySnapshot.docs[0].data();
             const userSession = { 
@@ -20,12 +24,19 @@ export const handleLoginSubmit = async (email, password, setIsLoggedIn, navigate
             console.log("User logged in:", userSession);
             localStorage.setItem("userSession", JSON.stringify(userSession));
 
-            toast.success("🎉 Login successful!", { autoClose: 2000 });
+            toast.success("🎉 Login successful!", {
+                autoClose: 2000,
+                style: { backgroundColor: "#0D1117", color: "#238636", height: "50px" }
+              });
+              
 
             setIsLoggedIn(true);  // ✅ Update state
             navigate("/note");     // ✅ Redirect immediately
         } else {
-            toast.error("❌ Invalid email or password!", { autoClose: 2000 });
+            toast.error("Invalid email or password!", {
+                autoClose: 1000,
+                style: { backgroundColor: "#0D1117", color: "red", height: "50px" }
+              });
         }
     } catch (error) {
         console.error("Login error:", error);

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaUser, FaBars,FaHome,FaRegStickyNote,FaSignOutAlt } from "react-icons/fa"; // Importing icons
+import './Menu.css'
+
 
 function Menu({ handleLogout }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,13 +23,24 @@ function Menu({ handleLogout }) {
   };
 
   return (
-    <div>
-      <button onClick={toggleDropdown}>Menu</button>
+    <div className="userContainer">
+      {/* Username */}
+      <span className="username">
+        <FaUser size={16} className="menuIcon" />
+        {JSON.parse(localStorage.getItem("userSession"))?.username || "Guest"}
+      </span>
+
+      {/* Menu Icon */}
+      <button onClick={toggleDropdown} className="menuFa">
+        <FaBars size={18} />
+      </button>
+
+      {/* Dropdown Menu */}
       {isOpen && (
-        <ul>
-          <li onClick={() => handleSelectOption('Home')}>Home</li>
-          <li onClick={() => handleSelectOption('Note')}>Note</li>
-          <li onClick={() => handleSelectOption('Logout')}>Logout</li>
+        <ul className="dropdownMenu">
+          <li onClick={() => handleSelectOption('Home')} className='li-menu'><FaHome size={20} className="menuIcon" />Home</li>
+          <li onClick={() => handleSelectOption('Note')} className='li-menu'><FaRegStickyNote size={18} className="menuIcon" />Note</li>
+          <li onClick={() => handleSelectOption('Logout')} className='li-menu'><FaSignOutAlt size={18} className="menuIcon" />Logout</li>
         </ul>
       )}
     </div>
