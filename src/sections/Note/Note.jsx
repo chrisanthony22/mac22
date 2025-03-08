@@ -101,7 +101,7 @@ function Note({ handleLogout }) {
     <div className="container">
       <div className="sidebar fixed-container">
         <div className="search-bar fixed">
-          <div className="menu-bar">Menu</div>
+          <div className="menu-bar">M@c22</div>
           <input
             type="text"
             placeholder="Search blog..."
