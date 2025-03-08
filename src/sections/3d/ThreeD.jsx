@@ -24,7 +24,7 @@ function Model({ path, scale }) {
 
 function ThreeD() {
     // List of models
-    const models = ["/models/comA.glb", "/models/tur3.glb", "/models/workbench.glb"];
+    const models = ["/models/hunter.glb", "/models/tur3.glb", "/models/workbench.glb"];
     const [currentModel, setCurrentModel] = useState(models[0]); // Default model
 
     // Change model every 50 seconds

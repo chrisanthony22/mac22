@@ -14,10 +14,44 @@ function Home({ setIsLoggedIn }) {
 
   // Hardcoded code samples
   const codeSamples = [
-    `import React from 'react';\nfunction HelloWorld() {\n  return <h1>Hello, World!</h1>;\n}\nexport default HelloWorld;`,
-    `const add = (a, b) => a + b;\nconsole.log(add(2, 3)); // 5`,
-    `class Person {\n  constructor(name) {\n    this.name = name;\n  }\n  greet() {\n    return \`Hello, \${this.name}!\`;\n  }\n}\nconst p = new Person("Alice");\nconsole.log(p.greet());`,
+    `// 🚀 Keep Learning, Keep Building!
+  import React from 'react';
+  function Inspire() {
+    return <h1>"The best way to learn is to build." - Unknown</h1>;
+  }
+  export default Inspire;`,
+  
+    `// 🌱 Growth Mindset: Progress over Perfection
+  const debug = (code) => {
+    console.log(\`Debugging: \${code}\`);
+  };
+  debug("Every bug is an opportunity to learn!");`,
+  
+    `// 💡 Simplicity is the soul of efficiency
+  class Programmer {
+    constructor(name) {
+      this.name = name;
+    }
+    code() {
+      return \`"Code is like humor. When you have to explain it, it’s bad." - \${this.name}\`;
+    }
+  }
+  const dev = new Programmer("Cory House");
+  console.log(dev.code());`,
+  
+    `// 🚀 "First, solve the problem. Then, write the code." - John Johnson
+  function solveProblem(problem) {
+    return \`Thinking before coding: \${problem}...\`;
+  }
+  console.log(solveProblem("Optimize this function"));`,
+  
+    `// 🧠 "Programming isn't about what you know; it's about what you can figure out." - Chris Pine
+  function learn() {
+    return "Keep pushing forward, even when it's hard!";
+  }
+  console.log(learn());`,
   ];
+  
 
   const fetchRandomCode = () => {
     const randomSnippet = codeSamples[Math.floor(Math.random() * codeSamples.length)];
