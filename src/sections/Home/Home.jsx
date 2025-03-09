@@ -136,6 +136,10 @@ function Home({ setIsLoggedIn }) {
           </div>
         </div>
       </div>
+      {/*Footer Section */}
+      <footer className="footer" style={{marginTop:"60px"}}>
+        <small><code>&copy;{new Date().getFullYear()}  mac22.</code></small>
+      </footer>
     </div>
   );
 }
