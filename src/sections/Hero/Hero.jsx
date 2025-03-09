@@ -36,7 +36,7 @@ function Hero() {
                 <a href="https://twitter.com/" target='_blank'>
                     <img src={twitterIcon} alt="twitterIcon" style={{height:"50px"}} />
                 </a>
-                <a href="https://github.com/" target='_blank'>
+                <a href="https://github.com/chrisanthony22" target='_blank'>
                     <img src={githubIcon} alt="githubIcon" style={{height:"54px"}}/>
                 </a>
                 <a href="https://www.linkedin.com/in/chris-anthony-monteon" target='_blank'>
