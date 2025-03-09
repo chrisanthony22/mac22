@@ -21,8 +21,8 @@ function Hero() {
   return (
     <section id='hero' className={styles.container}>
         <div className={styles.colorModeContainer}>
-           <img className={styles.hero} src={heroImg} alt="m@c22" />
-           <img 
+           <img className={styles.hero} src={heroImg} style={{width:"200px"}} alt="m@c22" />
+           <img style={{display:"none"}}
                 className={styles.colorMode} 
                 src={themeIcon} 
                 alt="color mode icon" 
@@ -34,20 +34,20 @@ function Hero() {
             <h2>Aspiring Programmer/Developer</h2><br/><hr/><br/>
             <span>
                 <a href="https://twitter.com/" target='_blank'>
-                    <img src={twitterIcon} alt="twitterIcon" />
+                    <img src={twitterIcon} alt="twitterIcon" style={{height:"50px"}} />
                 </a>
                 <a href="https://github.com/" target='_blank'>
-                    <img src={githubIcon} alt="githubIcon" />
+                    <img src={githubIcon} alt="githubIcon" style={{height:"54px"}}/>
                 </a>
                 <a href="https://www.linkedin.com/in/chris-anthony-monteon" target='_blank'>
-                    <img src={linkedinIcon} alt="linkedinIcon" />
+                    <img src={linkedinIcon} alt="linkedinIcon" style={{height:"50px"}}/>
                 </a>
             </span>
             <p>
                 Passionate about developing web and mobile apps and exploring the world of programming.
             </p>
             <a href={CV} download>
-                <button className='hover'>Resume</button>
+                <button className='hover' style={{display:"none"}}>Resume</button>
             </a>
         </div>
     </section>

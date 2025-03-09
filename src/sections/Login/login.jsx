@@ -13,7 +13,7 @@ function Login({ closePopup, onLoginSuccess }) {
   };
 
   return (
-    <div >
+    <div className="loginForm">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input

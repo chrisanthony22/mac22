@@ -26,21 +26,21 @@ function Menu({ handleLogout }) {
     <div className="userContainer">
       {/* Username */}
       <span className="username">
-        <FaUser size={16} className="menuIcon" />
+        <FaUser size={14} className="menuIcon" />
         {JSON.parse(localStorage.getItem("userSession"))?.username || "Guest"}
       </span>
 
       {/* Menu Icon */}
       <button onClick={toggleDropdown} className="menuFa">
-        <FaBars size={18} />
+        <FaBars size={14} />
       </button>
 
       {/* Dropdown Menu */}
       {isOpen && (
         <ul className="dropdownMenu">
-          <li onClick={() => handleSelectOption('Home')} className='li-menu'><FaHome size={20} className="menuIcon" />Home</li>
-          <li onClick={() => handleSelectOption('Note')} className='li-menu'><FaRegStickyNote size={18} className="menuIcon" />Note</li>
-          <li onClick={() => handleSelectOption('Logout')} className='li-menu'><FaSignOutAlt size={18} className="menuIcon" />Logout</li>
+          <li onClick={() => handleSelectOption('Home')} className='li-menu'><FaHome size={18} className="menuIcon" />Home</li>
+          <li onClick={() => handleSelectOption('Note')} className='li-menu'><FaRegStickyNote size={16} className="menuIcon" />Note</li>
+          <li onClick={() => handleSelectOption('Logout')} className='li-menu'><FaSignOutAlt size={16} className="menuIcon" />Logout</li>
         </ul>
       )}
     </div>

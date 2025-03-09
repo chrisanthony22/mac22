@@ -42,14 +42,15 @@
     color: #dae0e4 !important;
     --text-color:#dae0e4;
   }
-  .contentDiv{
-    color: #8898A1;
-    background-color: #0D1117;
-    border: 1px solid #888;
-    padding: 10px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+  .contentDiv {
+      color: #8898A1;
+      background-color: rgba(13, 17, 23, 0.8); /* 80% opacity */
+      border: 1px solid #888;
+      padding: 10px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
   }
+
   .content {
     width: 75%;
     display: flex;
@@ -188,3 +189,19 @@
     background-color: #010409 !important;
     border: 1px solid #8898A1 !important;
   }
+  .three-d-background {
+    position: absolute;
+    top: 20%;
+    right: 0%;
+    width: 50vw; /* Set width to 50% of the viewport width */
+    height: 50vh; /* Set height to 50% of the viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -1; /* Keeps it behind the content */
+    overflow: hidden;
+    border: 1px solid #acabab;
+    border-radius: 20px;
+}
+
+  

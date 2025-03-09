@@ -12,6 +12,8 @@ import { db } from "../../firebase";
 import { format } from "date-fns";
 import { FaUser,FaBars,FaPlusCircle,FaSearch,FaTimes,FaSave } from "react-icons/fa"; // Importing icons
 
+import ThreeD from "../3d/ThreeD";
+
 function Note({ handleLogout }) {
   const { theme } = useTheme();
   const [search, setSearch] = useState("");
@@ -142,7 +144,12 @@ function Note({ handleLogout }) {
           <Menu handleLogout={handleLogout}/>
         </div>
         <div className='space' />
+
+
         <div className="note-content">
+          <div className="three-d-background">
+            <ThreeD />
+          </div>
           {addFormIsOpen && (
             <div className="addNoteForm">
               <div className="formContainer">

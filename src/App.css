@@ -59,6 +59,7 @@ p{
 
 .app-container {
   display: flex;
+  width: 80vw;
   height: 100vh; /* Full screen height */
   flex-wrap: wrap; /* Allow the columns to wrap on smaller screens */
 }
@@ -210,10 +211,14 @@ textarea{
     width: 100% !important;
   }
   .right-column {
-    width: 100% !important;
-    position: relative;
+    width: 100vw;
+    min-height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  .three-d-container{
-    width: 100vw !important;
+  .three-d-container {
+    width: 100%;
+    height: 100%;
   }
 }
