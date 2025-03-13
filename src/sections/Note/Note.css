@@ -33,6 +33,12 @@
     color:#dae0e4 !important;
     --text-color:#eff4f8 !important;
   }
+  .blog-item:last-child {
+    margin-bottom: 100px; /* Adjust as needed */
+  }
+  .blog-item:first-child {
+    margin-top: 50px; /* Adjust as needed */
+  }
   .titleDiv{
     background-color: #0D1117;
     border: 1px solid #888;
@@ -44,6 +50,7 @@
   }
   .contentDiv {
       color: #8898A1;
+      font-size: 15px;
       background-color: rgba(13, 17, 23, 0.8); /* 80% opacity */
       border: 1px solid #888;
       padding: 10px;
@@ -59,6 +66,7 @@
   }
   .blog-item{
     padding: 10px;
+    font-size: 14px;
     color: #8898A1;
     cursor: pointer;
     border: 1px solid #555;
@@ -97,6 +105,7 @@
   }
   .note-content{
     padding: 20px;
+    margin-top: 50px;
   }
   .whiteText{
     color: white;
@@ -134,12 +143,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: auto;
     z-index: 1000; /* Makes sure it stays above everything */
   }
   .addNoteForm > div {
     background-color: white;
     padding: 20px;
     width: 50%;
+    height: 90vh;
+    overflow: auto;
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Stronger shadow */
     border: 2px solid #555; /* Darker border */
@@ -203,5 +215,9 @@
     border: 1px solid #acabab;
     border-radius: 20px;
 }
-
-  
+.code-container{
+  background-color: #007bff;
+    overflow-y: auto; /* Enables scrolling */
+    position: relative;
+    z-index: 1; /* Lower than header */
+}

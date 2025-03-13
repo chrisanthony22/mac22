@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTheme } from '../../common/ThemeContext';
-import './Note.css';
-import userIcon from '../../assets/user-286.png';
-import Menu from '../Menu/Menu';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../common/ThemeContext";
+import "./Note.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { handleSaveNote } from "../Functions/system_functions";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import { format } from "date-fns";
-import { FaUser,FaBars,FaPlusCircle,FaSearch,FaTimes,FaSave } from "react-icons/fa"; // Importing icons
-
-import ThreeD from "../3d/ThreeD";
+import { FaPlusCircle, FaSearch, FaTimes, FaSave } from "react-icons/fa";
+import RichTextEditor from "../../components/RichTextEditor";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import Menu from "../Menu/Menu";
 
 function Note({ handleLogout }) {
   const { theme } = useTheme();
   const [search, setSearch] = useState("");
-  const [blogs, setBlogs] = useState([]); 
+  const [blogs, setBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [addFormIsOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("");  
-  const [category, setCategory] = useState("");  
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
 
@@ -51,16 +51,15 @@ function Note({ handleLogout }) {
       const q = query(notesRef, where("userId", "==", userId));
       const querySnapshot = await getDocs(q);
 
-      const userNotes = querySnapshot.docs.map(doc => {
-          const data = doc.data();
-      
-          return {
-              id: doc.id,
-              ...data,
-              dateSaved: data.dateSaved?.toDate() || new Date(), // Convert Firestore Timestamp
-          };
+      const userNotes = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+
+        return {
+          id: doc.id,
+          ...data,
+          dateSaved: data.dateSaved?.toDate() || new Date(),
+        };
       });
-      console.log("userNotes : ", userNotes)
 
       setBlogs(userNotes);
       if (userNotes.length > 0) setSelectedBlog(userNotes[0]);
@@ -73,9 +72,9 @@ function Note({ handleLogout }) {
   const openForm = () => setIsOpen(true);
   const closeForm = () => {
     setIsOpen(false);
-    setTitle(""); 
-    setCategory(""); 
-    setContent(""); 
+    setTitle("");
+    setCategory("");
+    setContent("");
   };
 
   const handleSubmit = async () => {
@@ -96,13 +95,49 @@ function Note({ handleLogout }) {
     fetchUserNotes(userSession.id);
   };
 
-  const filteredBlogs = blogs.filter(blog =>
-    blog.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredBlogs = blogs.filter((blog) =>
+  blog.title.toLowerCase().includes(search.toLowerCase()) ||
+  blog.category.toLowerCase().includes(search.toLowerCase())
+);
+
+  const renderHighlightedContent = (htmlContent) => {
+    const regex = /<pre><code class="language-(.*?)">(.*?)<\/code><\/pre>/gs;
+    let elements = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(htmlContent)) !== null) {
+      const [fullMatch, language, code] = match;
+
+      if (lastIndex < match.index) {
+        elements.push(
+          <div key={`text-${lastIndex}`} dangerouslySetInnerHTML={{ __html: htmlContent.substring(lastIndex, match.index) }} />
+        );
+      }
+
+      elements.push(
+        <pre key={`code-${match.index}`} className="code-container">
+          <SyntaxHighlighter language={language} style={materialDark}>
+            {code}
+          </SyntaxHighlighter>
+        </pre>
+      );
+
+      lastIndex = match.index + fullMatch.length;
+    }
+
+    if (lastIndex < htmlContent.length) {
+      elements.push(
+        <div key={`text-end`} dangerouslySetInnerHTML={{ __html: htmlContent.substring(lastIndex) }} />
+      );
+    }
+
+    return elements;
+  };
 
   return (
     <div className="container">
-      <div className="sidebar fixed-container">
+      <div className="sidebar">
         <div className="search-bar fixed">
           <div className="menu-bar">
             <div className="search-container">
@@ -115,10 +150,12 @@ function Note({ handleLogout }) {
                 className="search-input"
               />
             </div>
-            <button onClick={openForm} className="btnSuccess"><FaPlusCircle size={15} className='menuIcon'/>New</button>
+            <button onClick={openForm} className="btnSuccess">
+              <FaPlusCircle size={15} className="menuIcon" />
+              New
+            </button>
           </div>
         </div>
-        <div className='space' />
 
         <div className="blog-list">
           {filteredBlogs.length > 0 ? (
@@ -128,68 +165,46 @@ function Note({ handleLogout }) {
                 className={`blog-item ${selectedBlog?.id === blog.id ? "active" : ""}`}
                 onClick={() => setSelectedBlog(blog)}
               >
-                <p className='mainText'>{blog.title}</p>
-                <small className='subText'>(category: {blog.category})</small><br/>
-                 <code className='subText'>{format(blog.dateSaved, "MMM dd, yyyy h:mm a")}</code>
+                <p className="mainText">{blog.title}</p>
+                <small className="subText">(category: {blog.category})</small>
+                <br />
+                <code className="subText">{format(blog.dateSaved, "MMM dd, yyyy h:mm a")}</code>
               </div>
             ))
           ) : (
-            <div className='whiteText'>No results found for "{search}"</div>
+            <div className="whiteText">No results found for "{search}"</div>
           )}
         </div>
       </div>
 
       <div className="content fixed-container">
         <div className="userDiv fixed">
-          <Menu handleLogout={handleLogout}/>
+          <Menu handleLogout={handleLogout} />
         </div>
-        <div className='space' />
-
 
         <div className="note-content">
-          <div className="three-d-background">
-            <ThreeD />
-          </div>
           {addFormIsOpen && (
             <div className="addNoteForm">
               <div className="formContainer">
-                <div className="col-md-12 row">
-                  <div className="col-md-11">
-                    <h3>Adding New Note</h3>
-                  </div>
-                  <div className="col-md-1">
-                    <button className="close-button" onClick={closeForm} style={{marginLeft:"25px"}}>✖</button>
-                  </div>
-                </div>
-                <hr/>
-                <input 
-                  type="text" 
-                  placeholder="Enter title" 
-                  className="border p-2 w-full mb-4" 
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-
-                <input 
-                  type="text" 
-                  placeholder="Enter Category" 
-                  className="border p-2 w-full mb-4" 
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                />
-
-                <textarea 
-                  className="border p-2 w-full mb-4 noteTextArea" 
-                  placeholder="Enter your note here..." 
-                  rows="10"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                ></textarea>
-                
-                <div className="">
+                <div>
+                  <div class="col-md-12 row">
+                    <div class="col-md-11"><h3>Adding New Note</h3>
+                    </div>
+                    <div class="col-md-1" style={{textAlign:"right"}}>
+                      <button onClick={closeForm} className="closeBtn">
+                        <FaTimes size={10} />
+                      </button>
+                    </div>
+                  </div><hr/><br/>
+                  <div className="col-md-12">
+                    <input type="text" className="border p-2 w-full mb-4" placeholder="Enter title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                  </div><br/>
+                  <div className="col-md-12">
+                    <input type="text" className="border p-2 w-full mb-4" placeholder="Enter Category" value={category} onChange={(e) => setCategory(e.target.value)} />
+                  </div><br/>
+                  <RichTextEditor onChange={setContent} /><br/>
                   <button onClick={handleSubmit} className="btnSuccess">
-                   <FaSave size={17} className='menuIcon' />
-                    Save
+                    <FaSave size={17} className="menuIcon" /> Save
                   </button>
                 </div>
               </div>
@@ -198,23 +213,19 @@ function Note({ handleLogout }) {
 
           {selectedBlog ? (
             <>
-              <div className='titleDiv'>
-                <h2>{selectedBlog.title}</h2>
-              </div>             
-              <div className='contentDiv'>
-                <p>{selectedBlog.content}</p>
-              </div>
+              <div className="titleDiv"><h2>{selectedBlog.title}</h2></div>
+              
+              <div className="contentDiv">{renderHighlightedContent(selectedBlog.content)}</div>
             </>
           ) : (
             <p>No notes available.</p>
           )}
         </div>
       </div>
-
       {/*Footer Section */}
-    <footer className="footer">
-      <small><code>&copy;{new Date().getFullYear()}  mac22.</code></small>
-    </footer>
+      <footer className="footer" style={{marginTop:"60px"}}>
+        <small><code>&copy;{new Date().getFullYear()}  mac22.</code></small>
+      </footer>
     </div>
   );
 }
