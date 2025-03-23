@@ -8,7 +8,7 @@ import { handleSaveNote } from "../Functions/system_functions";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import { format } from "date-fns";
-import { FaPlusCircle, FaSearch, FaTimes, FaSave } from "react-icons/fa";
+import { FaPlusCircle, FaSearch, FaTimes, FaSave, FaRegEdit } from "react-icons/fa";
 import RichTextEditor from "../../components/RichTextEditor";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -169,6 +169,8 @@ function Note({ handleLogout }) {
                 <small className="subText">(category: {blog.category})</small>
                 <br />
                 <code className="subText">{format(blog.dateSaved, "MMM dd, yyyy h:mm a")}</code>
+                <FaRegEdit size={15} className="menuIcon" style={{border:"1 px solid #8a8a8a",
+                  marginLeft:"80px"}} />
               </div>
             ))
           ) : (
